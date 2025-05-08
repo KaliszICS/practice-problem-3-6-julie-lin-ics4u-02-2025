@@ -5,68 +5,64 @@ public class PracticeProblem {
 	}
 
 	public static int searchMazeMoves(String[][] arr) {
+		int row = arr.length - 1;
 		int col = 0;
-		int row = arr.length -1;
 		int moves = 0;
-		return searchMazeMovesHelper(arr, row, col, moves); 
-	}
 
-	public static int searchMazeMovesHelper (String [][] arr, int col, int row, int moves) {
-		if (col >= arr[row].length || row >= arr.length || col < 0 || row < 0) {
+		return searchMazeMovesHelper(arr, row, col, moves);
+		
+	}
+	
+	public static int searchMazeMovesHelper(String[][] arr, int row, int col, int moves) {
+
+		if (row < 0 || row >= arr.length || col < 0 || col >= arr[row].length || arr[row][col].equals("*")){
 			return -1;
 		}
 
-		if (arr[col][row].equals("F")) {
+		if (arr[row][col].equals("F")){
 			return moves;
 		}
 
-		if (arr[row][col].equals("*")) {
-			return -1;
-		}
+		int right = searchMazeMovesHelper(arr, row, col + 1, moves +1);
+		int up = searchMazeMovesHelper(arr, row - 1, col, moves +1);
 
-		int right = searchMazeMovesHelper(arr, col + 1, row, moves +1);
-		int up = searchMazeMovesHelper(arr, col, row - 1, moves+1);
-
-		if (right != -1 && up != -1) {
+		if (right != -1 && up != -1){
 			return Math.min(right, up);
-		}
-		else if (right == -1) {
+		} else if (right == -1){
 			return up;
-		}
-		else {
+		} else {
 			return right;
 		}
 	}
-
+		
 	public static int noOfPaths(String[][] arr) {
+		int row = arr.length - 1;
 		int col = 0;
-		int row = arr.length -1;
-		return noOfPathsHelper(arr, row, col); 
-	}
 
+		return noOfPathsHelper(arr, row, col);
+		
+	}
+	
 	public static int noOfPathsHelper(String[][] arr, int row, int col) {
-		if (col >= arr[row].length || row >= arr.length || col < 0 || row < 0) {
+
+		if (row < 0 || row >= arr.length || col < 0 || col >= arr[row].length || arr[row][col].equals("*")){
 			return -1;
 		}
 
-		if (arr[col][row].equals("F")) {
+		if (arr[row][col].equals("F")){
 			return 1;
 		}
 
-		if (arr[row][col].equals("*")) {
-			return -1;
-		}
+		int right = noOfPathsHelper(arr, row, col + 1);
+		int up = noOfPathsHelper(arr, row - 1, col);
 
-		int right = noOfPathsHelper(arr, col + 1, row);
-		int up = noOfPathsHelper(arr, col, row - 1);
-
-		if (right == -1) {
+		if (right == -1){
 			right = 0;
-		}
-		if (right == -1) {
+		} 
+
+		if (up == -1){
 			up = 0;
 		}
-		return right+up;
-
+		return right + up;
 	}
 }
